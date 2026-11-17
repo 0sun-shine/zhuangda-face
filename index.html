@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FBF7F5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="妆搭">
+<meta name="format-detection" content="telephone=no">
+<meta name="robots" content="noindex, nofollow">
+<title>妆搭 · 人脸采集与分析</title>
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app" class="app">
+
+  <!-- ============ 首页：我的人脸照片 ============ -->
+  <section id="v-home" class="view view-home" data-view="home">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">妆</span><span class="brand-name">妆搭</span></div>
+      <span class="topbar-sub">人脸采集与分析</span>
+    </header>
+    <div class="scroll pad" id="home-body"></div>
+  </section>
+
+  <!-- ============ P05 拍照取景 ============ -->
+  <section id="v-camera" class="view view-camera" data-view="camera" hidden>
+    <div class="cam-stage" id="cam-stage">
+      <video id="cam-video" playsinline muted autoplay></video>
+      <svg class="cam-mask" id="cam-mask" aria-hidden="true">
+        <defs><mask id="cam-hole"><rect width="100%" height="100%" fill="#fff"/><ellipse id="cam-hole-e" fill="#000"/></mask></defs>
+        <rect width="100%" height="100%" fill="rgba(0,0,0,.55)" mask="url(#cam-hole)"/>
+        <ellipse id="cam-ring" class="cam-ring" fill="none" stroke-width="3" stroke-dasharray="10 7"/>
+      </svg>
+    </div>
+    <div class="cam-top">
+      <button class="icon-btn on-dark" id="cam-close" aria-label="关闭"><svg data-i="close"></svg></button>
+      <span class="cam-title">拍一张正脸照</span>
+      <button class="icon-btn on-dark" id="cam-help" aria-label="拍摄示例"><svg data-i="spark"></svg></button>
+    </div>
+    <div class="cam-feedback" id="cam-feedback">
+      <div class="cam-chips" id="cam-chips">
+        <span class="cchip" data-k="light"><svg data-i="check"></svg><b>光线充足</b></span>
+        <span class="cchip" data-k="pose"><svg data-i="check"></svg><b>正脸</b></span>
+        <span class="cchip" data-k="distance"><svg data-i="check"></svg><b>距离合适</b></span>
+        <span class="cchip" data-k="occlusion"><svg data-i="check"></svg><b>额头与双眉无遮挡</b></span>
+      </div>
+      <div class="cam-tip" id="cam-tip" aria-live="polite">把脸放进框里</div>
+      <div class="cam-sub">建议素颜或淡妆，面向自然光</div>
+    </div>
+    <div class="cam-bottom">
+      <div class="cam-controls">
+        <button class="cam-album" id="cam-album" aria-label="从相册选择"><img id="cam-album-img" alt=""><svg data-i="image"></svg></button>
+        <button class="shutter" id="cam-shutter" aria-label="拍照" aria-disabled="true"><span></span></button>
+        <button class="cam-flip" id="cam-flip" aria-label="切换前后摄像头"><svg data-i="flip"></svg></button>
+      </div>
+      <div class="cam-modes"><button id="cam-mode-album">相册</button><span class="on">拍照</span><button id="cam-mode-sample">示例</button></div>
+    </div>
+    <div class="cam-overlay" id="cam-overlay" hidden></div>
+  </section>
+
+  <!-- ============ 照片检测结果 ============ -->
+  <section id="v-review" class="view view-review" data-view="review" hidden>
+    <header class="navbar">
+      <button class="icon-btn" data-back aria-label="返回"><svg data-i="back"></svg></button>
+      <h1>照片检测</h1><span class="icon-btn ghost"></span>
+    </header>
+    <div class="scroll pad" id="review-body"></div>
+  </section>
+
+  <!-- ============ P06 面部分析报告 ============ -->
+  <section id="v-report" class="view view-report" data-view="report" hidden>
+    <header class="navbar">
+      <button class="icon-btn" data-back aria-label="返回"><svg data-i="back"></svg></button>
+      <h1>面部分析报告</h1>
+      <button class="icon-btn" id="report-share" aria-label="分享"><svg data-i="share"></svg></button>
+    </header>
+    <div class="scroll pad" id="report-body"></div>
+  </section>
+
+  <!-- 分析中 -->
+  <div class="analyzing" id="analyzing" hidden>
+    <div class="an-photo"><img id="an-img" alt=""><i class="an-scan"></i></div>
+    <ol class="an-steps" id="an-steps">
+      <li>定位 478 个面部关键点</li><li>测量三庭五眼比例</li><li>识别眉、眼、鼻、唇特征</li><li>分析肤色冷暖与季型</li>
+    </ol>
+  </div>
+
+  <!-- 底部弹层 -->
+  <div class="sheet-wrap" id="sheet-wrap" hidden>
+    <div class="sheet-mask" data-close-sheet></div>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <input type="file" id="file-input" accept="image/*" hidden>
+</div>
+<noscript>请在手机浏览器中打开并允许运行脚本。</noscript>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
